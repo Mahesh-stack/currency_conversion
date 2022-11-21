@@ -8,4 +8,6 @@ import com.boot.test.entity.CurrencyConversionEntity;
 @Repository
 public interface CurrencyConversionRepository extends JpaRepository<CurrencyConversionEntity, Integer> {
 
+	CurrencyConversionEntity findByCurrencyNameIgnoreCase(String currencyName);
+
 }
