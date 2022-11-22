@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.boot.test.entity.CurrencyConversionEntity;
+import com.boot.test.exception.CurrencyNotFoundException;
 import com.boot.test.repository.CurrencyConversionRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +47,24 @@ public class CurrencyConversionService {
 			logger.error(e.getMessage());
 		}
 		return currencyConversionEntity;
+	}
+
+	public String findCurrency(String currencyName) {
+		logger.info("inside findCurrency() method");
+		String message = null;
+		try {
+			CurrencyConversionEntity conversionEntity = currencyConversionRepository
+					.findByCurrencyNameIgnoreCase(currencyName);
+			if (conversionEntity != null) {
+				message = "Currency Exists";
+			} else {
+				message = "Currency Not Found";
+				throw new CurrencyNotFoundException();
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return message;
 	}
 
 }
