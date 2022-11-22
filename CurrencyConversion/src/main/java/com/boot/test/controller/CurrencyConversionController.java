@@ -1,6 +1,7 @@
 package com.boot.test.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -35,7 +36,7 @@ public class CurrencyConversionController {
 			@RequestBody CurrencyConversionEntity currencyConverison) {
 		Map<String, Object> response = new HashMap<>();
 		CurrencyConversionEntity cuEntity = currencyConversionService.saveUpdateCurrency(currencyConverison);
-		response.put("currency", cuEntity);  
+		response.put("currency", cuEntity);
 		return ResponseEntity.accepted().body(response);
 	}
 
@@ -43,6 +44,26 @@ public class CurrencyConversionController {
 	public ResponseEntity<String> findCurrency(@PathVariable("currencyName") String currencyName) {
 		String isCurrencyAvailable = currencyConversionService.findCurrency(currencyName);
 		return new ResponseEntity<String>(isCurrencyAvailable, HttpStatus.OK);
+	}
+
+	@GetMapping("/countRecords")
+	public ResponseEntity<Integer> totalNumberOfRecords() throws Exception {
+		int count = currencyConversionService.totalCountOfRecords();
+		return new ResponseEntity<Integer>(count, HttpStatus.OK);
+	}
+
+	@GetMapping("/findByCurNameAndCurFrom/{currencyName}/{currencyFrom}")
+	public ResponseEntity<List<CurrencyConversionEntity>> findRecordsWithCurrencyNameAndCurrencyFrom(
+			@PathVariable String currencyName, @PathVariable String currencyFrom) {
+		List<CurrencyConversionEntity> list = currencyConversionService.findByCurrencyNameAndCurrencyFrom(currencyName,
+				currencyFrom);
+		return new ResponseEntity<List<CurrencyConversionEntity>>(list, HttpStatus.OK);
+	}
+
+	@GetMapping("/All-Records")
+	public ResponseEntity<List<CurrencyConversionEntity>> findAll() {
+		List<CurrencyConversionEntity> list = currencyConversionService.findAllRecords();
+		return new ResponseEntity<List<CurrencyConversionEntity>>(list, HttpStatus.OK);
 	}
 
 }

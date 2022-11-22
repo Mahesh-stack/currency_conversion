@@ -1,5 +1,7 @@
 package com.boot.test.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +67,25 @@ public class CurrencyConversionService {
 			logger.error(e.getMessage());
 		}
 		return message;
+	}
+
+	public int totalCountOfRecords() throws Exception {
+		return currencyConversionRepository.countRecords();
+	}
+
+	public List<CurrencyConversionEntity> findByCurrencyNameAndCurrencyFrom(String currencyName, String currencyFrom) {
+		List<CurrencyConversionEntity> list = null;
+		try {
+			list = currencyConversionRepository.findByCurrencyNameIgnoreCaseAndCurrencyFromIgnoreCase(currencyName,
+					currencyFrom);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return list;
+	}
+
+	public List<CurrencyConversionEntity> findAllRecords() {
+		return currencyConversionRepository.findAll();
 	}
 
 }
