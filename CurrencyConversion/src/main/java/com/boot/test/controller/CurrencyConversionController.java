@@ -40,6 +40,17 @@ public class CurrencyConversionController {
 		return ResponseEntity.accepted().body(response);
 	}
 
+	@PostMapping("/save-new-currency")
+	public ResponseEntity<Map<String, Object>> saveNewCurrency(
+			@RequestBody CurrencyConversionEntity currencyConversionEntity) {
+		Map<String, Object> resp = new HashMap<>();
+		CurrencyConversionEntity cuConversionEntity = currencyConversionService
+				.saveNewCurrency(currencyConversionEntity);
+		resp.put("currency", cuConversionEntity);
+		return ResponseEntity.accepted().body(resp);
+
+	}
+
 	@GetMapping("/findCurrency/{currencyName}")
 	public ResponseEntity<String> findCurrency(@PathVariable("currencyName") String currencyName) {
 		String isCurrencyAvailable = currencyConversionService.findCurrency(currencyName);

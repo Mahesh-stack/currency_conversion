@@ -88,4 +88,8 @@ public class CurrencyConversionService {
 		return currencyConversionRepository.findAll();
 	}
 
+	public CurrencyConversionEntity saveNewCurrency(CurrencyConversionEntity currencyConversionEntity) {
+		return currencyConversionRepository.save(currencyConversionEntity);
+	}
+
 }
